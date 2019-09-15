@@ -159,6 +159,23 @@ the minimum felineX(A) and minimum felineY(B) among all explored commits
 A and B. That is, the pair (minX, minY) is below our entire explored set.
 This can be a disadvantage for these algorithms.
 
+**V5: Corrected Commit Date with Strictly Monotonic Offset.**
+For a commit C, let its _offset commit date_ (denoted by odate(C))
+be a commit date plus some offset, i.e. odate(C) = date(C) + offset(C),
+such that:
+
+1. Offset commit date is greater than the maximum of the commit date
+   of C and the offset commit dates of its parents.
+
+     If odate(A) < odate(B), then A cannot reach B.
+
+2. Offset of a commit is one more than the maximum offset of a parent,
+   or more
+
+     If offset(A) < offset(B), then A cannot reach B.
+
+This is backward-compatible version of V3: Corrected Commit Date.
+
 ### Comparing Reachability Index Versions Viability
 
 Before considering how well these indexes perform during our algorithm
@@ -189,11 +206,17 @@ Git clients.
 | Maximum Generation Number | Yes         | No         | No     |
 | Corrected Commit Date     | No          | Yes        | Yes    |
 | FELINE index              | Yes         | No         | No     |
+| Offset Commit Date *NEW*  | Yes         | Yes        | Yes    |
 
 _Note:_ The corrected commit date uses the generation number column
 to store an offset of "how much do I need to add to my commit date
 to get my corrected commit date?" The values stored in that column
 are then not backwards-compatible.
+
+_Note:_ The corrected commit date with strictly monotonic offset also
+uses the generation number column to store the date offset, but the
+offset alone can be used as generation number (as reachability index)
+itself.
 
 _Note:_ The FELINE index requires storing two values instead of just
 one. One of these values could be stored in the generation number

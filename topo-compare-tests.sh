@@ -18,7 +18,7 @@ do
 		| sed "s/:/ /g" \
 		| grep -oE '[^ ]+$')"
 
-	for v in 0 1 2 3 4 
+	for v in 0 1 2 3 4 5
 	do
 		cp .git/objects/info/commit-graph.$v .git/objects/info/commit-graph
 
@@ -42,7 +42,7 @@ do
 		| sed "s/:/ /g" \
 		| grep -oE '[^ ]+$')"
 
-	for v in 0 1 2 3 4 
+	for v in 0 1 2 3 4 5
 	do
 		cp .git/objects/info/commit-graph.$v .git/objects/info/commit-graph
 
